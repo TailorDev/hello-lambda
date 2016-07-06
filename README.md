@@ -7,9 +7,8 @@ This project is an example of a Python (AWS)
 [Lambda](https://aws.amazon.com/lambda/) exposed with [API
 Gateway](https://aws.amazon.com/api-gateway/), configured with
 [Terraform](https://www.terraform.io/). This demo project is related to the
-following blog post:
-
-* https://tailordev.fr/blog/2016/07/08/a-tour-of-aws-lambda/
+following blog post: [A Tour of AWS
+Lambda](https://tailordev.fr/blog/2016/07/08/a-tour-of-aws-lambda/).
 
 
 ![](doc/big-picture.png)
@@ -17,11 +16,11 @@ following blog post:
 
 ## Introduction
 
-The code creates a `/hello` endpoint with two methods (`GET` and `POST`). Both
-methods are bound to a **single file** containing two handlers (a.k.a. lambda
-functions, one for each method). This is defined by a `handler` parameter. The
-code for each lambda function is written in Python (method names are just a
-convention):
+This demo project creates a `/hello` endpoint with two methods (`GET` and
+`POST`). Both methods are bound to a **single file** containing two handlers
+(a.k.a. lambda functions, one for each method). This is defined by a `handler`
+parameter. The code for each lambda function is written in Python (method names
+are just a convention):
 
 ```python
 def handler(event, context):
@@ -40,6 +39,41 @@ credentials. The figure below is an example of what you get in the API Gateway
 dashboard:
 
 ![](doc/hello.png)
+
+
+## Getting started
+
+You must have an [AWS account](http://aws.amazon.com/). Next, you must [install
+Terraform](https://www.terraform.io/intro/getting-started/install.html) first.
+
+Clone this repository, then run:
+
+    $ make bootstrap
+
+Create a `terraform.tfvars` file with the content below. This step is optional
+as Terraform will ask you to fill in the different values, but it is convenient.
+
+```ini
+aws_account_id = "account-id"
+aws_access_key = "access-key"
+aws_secret_key = "secret-key"
+aws_region     = "eu-west-1"
+```
+
+You are now ready to use Terraform!
+
+    $ terraform plan
+
+If everything is OK, you can build the whole infrastructure:
+
+    $ terraform apply
+
+You can destroy all the components by running:
+
+    $ terraform destroy
+
+For more information, please read [the Terraform
+documentation](https://www.terraform.io/docs/index.html).
 
 
 ## Terraform Modules
@@ -75,40 +109,6 @@ module "hello_post" {
   account_id  = "account-id"
 }
 ```
-
-## Getting started
-
-You must have an [AWS account](http://aws.amazon.com/). Next, you must [install
-Terraform](https://www.terraform.io/intro/getting-started/install.html) first.
-
-Clone this repository, then run:
-
-    $ make bootstrap
-
-Create a `terraform.tfvars` file with the content below. This step is optional
-as Terraform will ask you to fill in the different values, but it is convenient.
-
-```ini
-aws_account_id = "account-id"
-aws_access_key = "access-key"
-aws_secret_key = "secret-key"
-aws_region     = "eu-west-1"
-```
-
-You are now ready to use Terraform!
-
-    $ terraform plan
-
-If everything is OK, you can build the whole infrastructure:
-
-    $ terraform apply
-
-You can destroy all the components by running:
-
-    $ terraform destroy
-
-For more information, please read [the Terraform
-documentation](https://www.terraform.io/docs/index.html).
 
 
 ## License
