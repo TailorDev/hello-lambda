@@ -55,14 +55,15 @@ as Terraform will ask you to fill in the different values, but it is convenient.
 
 ```ini
 aws_account_id = "account-id"
-aws_access_key = "access-key"
-aws_secret_key = "secret-key"
 aws_region     = "eu-west-1"
 ```
 
 You are now ready to use Terraform!
 
-    $ terraform plan
+```bash
+$ terraform get
+$ terraform plan
+```
 
 If everything is OK, you can build the whole infrastructure:
 
