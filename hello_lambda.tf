@@ -61,7 +61,8 @@ module "hello_get" {
   path        = "${aws_api_gateway_resource.hello_api_res_hello.path}"
   lambda      = "${module.lambda.name}"
   region      = "${var.aws_region}"
-  account_id  = "${var.aws_account_id}"
+  lambda_arn  = "${module.lambda.arn}"
+  source_arn  = "${aws_api_gateway_rest_api.hello_api.execution_arn}"
 }
 
 # This is the code for method POST /hello, that will talk to the second lambda
@@ -73,7 +74,8 @@ module "hello_post" {
   path        = "${aws_api_gateway_resource.hello_api_res_hello.path}"
   lambda      = "${module.lambda_post.name}"
   region      = "${var.aws_region}"
-  account_id  = "${var.aws_account_id}"
+  lambda_arn  = "${module.lambda_post.arn}"
+  source_arn  = "${aws_api_gateway_rest_api.hello_api.execution_arn}"
 }
 
 # We can deploy the API now! (i.e. make it publicly available)

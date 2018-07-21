@@ -23,8 +23,12 @@ variable "region" {
   description = "The AWS region, e.g., eu-west-1"
 }
 
-variable "account_id" {
-  description = "The AWS account ID"
+variable "lambda_arn" {
+  description = "The lambda arn to integrate"
+}
+
+variable "source_arn" {
+  description = "The gateway api execution arn to be passed to permission"
 }
 
 # Example: request for GET /hello
@@ -41,7 +45,7 @@ resource "aws_api_gateway_integration" "request_method_integration" {
   resource_id = "${var.resource_id}"
   http_method = "${aws_api_gateway_method.request_method.http_method}"
   type        = "AWS"
-  uri         = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.region}:${var.account_id}:function:${var.lambda}/invocations"
+  uri         = "${var.lambda_arn}"
 
   # AWS lambdas can only be invoked with the POST method
   integration_http_method = "POST"
@@ -76,7 +80,7 @@ resource "aws_lambda_permission" "allow_api_gateway" {
   statement_id  = "AllowExecutionFromApiGateway"
   action        = "lambda:InvokeFunction"
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:${var.region}:${var.account_id}:${var.rest_api_id}/*/${var.method}${var.path}"
+  source_arn    = "${var.source_arn}/*/${var.method}${var.path}"
 }
 
 output "http_method" {
